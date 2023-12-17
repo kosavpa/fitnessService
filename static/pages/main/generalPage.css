@@ -1,0 +1,233 @@
+    body {
+        background-image: url('pc/bigBackground.jpeg');
+        background-size: cover;
+
+        .userBox {
+            display: flex;
+            flex-flow: row wrap;
+            margin-left: auto;
+            justify-content: flex-end;
+
+            >div {
+                margin: 0 10px;
+                font-weight: bold;
+                line-height: 30px;
+                font-size: 22px;
+                color: #dbd5d5;
+                border-radius: 10px;
+                border: solid black 2px;
+                height: 40px;
+                background-color: rgba(166, 122, 0, 0.6);
+
+                >p {
+                    margin: 4px 8px;
+                }
+            }
+
+            >div:hover {
+                box-shadow: 5px 5px 10px 5px #a67a00, -5px -5px 10px 5px #A67A00;
+                transform: translateY(-1px);
+            }
+
+            >div:active {
+                box-shadow: inset 2px 2px 10px 1px #000000, inset -2px -2px 10px 1px #000000;
+                transform: translateY(1px);
+            }
+        }
+
+        .navigationBody {
+            display: flex;
+            flex-wrap: wrap;
+            margin: auto;
+            width: 80%;
+            justify-content: space-between;
+
+            .navigationWrapper {
+                margin-top: 200px;
+                text-align: center;
+                height: 400px;
+                width: 240px;
+                border-radius: 10px;
+                border: solid black 4px;
+                display: flex;
+                align-items: flex-end;
+                vertical-align: middle;
+                background-color: black;
+
+                >div {
+                    width: 100%;
+                    height: 100%;
+                    align-items: inherit;
+                    display: inherit;
+
+                    >p {
+                        margin-left: auto;
+                        margin-right: auto;
+                        color: #dbd5d5;
+                        font-family: Verdana;
+                        font-weight: bold;
+                        line-height: 30px;
+                        font-size: 26px;
+                    }
+                }
+
+                .articlesWrapper {
+                    background-image: url('pc/1.jpg');
+                    border-radius: 8px;
+                    opacity: 0.6;
+                }
+
+                .videosWrapper {
+                    background-image: url('pc/2.jpg');
+                    border-radius: 8px;
+                    opacity: 0.6;
+                }
+
+                .musicsWrapper {
+                    background-image: url('pc/3.jpg');
+                    border-radius: 8px;
+                    opacity: 0.6;
+                }
+
+                .chatWrapper {
+                    background-image: url('pc/4.jpg');
+                    border-radius: 8px;
+                    opacity: 0.6;
+                }
+            }
+
+            .navigationWrapper:hover {
+                box-shadow: 5px 5px 20px 5px #a67a00, -5px -5px 20px 5px #A67A00;
+                transform: translateY(-1px);
+
+                >div {
+                    opacity: 1;
+
+                    >p {
+                        color: #dbd5d5;
+                        -webkit-text-stroke: 1px black;
+                        font-family: Verdana;
+                        font-size: 30px;
+                    }
+                }
+            }
+
+            .navigationWrapper:active {
+                box-shadow: 0px 0px 0px 0px, 0px 0px 0px 0px;
+                transform: translateY(1px);
+            }
+        }
+    }
+
+    @media (max-device-width: 1024px) and (max-device-height: 1370px) {
+        body {
+            background-image: url('device/smallBackground.jpg');
+            background-size: auto;
+
+            .navigationBody {
+                margin-top: 20%;
+
+                .navigationWrapper {
+                    margin: 10px 50px;
+                }
+            }
+        }
+    }
+
+    @media (max-device-width: 1024px) and (max-device-height: 600px) {
+        body {
+            .navigationBody {
+                margin-top: 5%;
+            }
+        }
+    }
+
+    @media (max-device-width: 820px) and (max-device-height: 1180px) {
+        body {
+            .navigationBody {
+                margin-top: 10%;
+
+                .navigationWrapper {
+                    margin: 10px 0px;
+                }
+            }
+        }
+    }
+
+    @media (max-device-width: 540px) and (max-device-height: 720px) {
+        body {
+            .navigationBody {
+                width: 100%;
+                margin-top: 5%;
+
+                .navigationWrapper {
+                    margin: 10px 0px;
+                }
+            }
+        }
+    }
+
+    @media (max-device-width: 430px) and (max-device-height: 1370px) {
+        body {
+            .userBox {
+                flex-flow: column;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+
+                >div p {
+                    text-align: center;
+                }
+            }
+
+            .navigationBody {
+                margin-top: 20%;
+                flex-direction: column;
+                width: 100%;
+
+                .navigationWrapper {
+                    margin-top: 5%;
+                    height: 90px;
+                    width: 90%;
+                    margin-left: auto;
+                    margin-right: auto;
+
+                    .articlesWrapper {
+                        background-image: url('device/1.png');
+                        border-radius: 6px;
+                    }
+    
+                    .videosWrapper {
+                        background-image: url('device/2.png');
+                        border-radius: 6px;
+                    }
+    
+                    .musicsWrapper {
+                        background-image: url('device/3.png');
+                        border-radius: 6px;
+                    }
+    
+                    .chatWrapper {
+                        background-image: url('device/4.png');
+                        border-radius: 6px;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-device-width: 375px) and (max-device-height: 740px) {
+        body {
+            background-image: url('device/smallBackground.jpg');
+            background-size: auto;
+
+            .userBox div {
+                height: auto;
+            }
+
+
+            .navigationBody {
+                margin-top: 10%;
+            }
+        }
+    }

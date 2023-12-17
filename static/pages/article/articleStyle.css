@@ -1,0 +1,62 @@
+body {
+    background-image: url(background.jpg);
+    background-attachment: fixed;
+
+    .articleBody {
+        color: white;
+        margin: auto;
+        width: 50%;
+        font-family: Verdana;
+        font-weight: lighter;
+        line-height: 30px;
+        font-size: 18px;
+        text-align: justify;
+
+        .articleHeader {
+            justify-content: space-between;
+
+            >h2 {
+                margin-bottom: 0px;
+            }
+        }
+
+        .articleDescription {
+            font-style: italic;
+            margin-top: 10px;
+        }
+    }
+
+    .separator {
+        border: none;
+        background-color: black;
+        color: black;
+        height: 2px;
+    }
+
+    a {
+        color: yellowgreen;
+    }
+
+    a:hover {
+        font-weight: bold
+    }
+
+    a:visited {
+        color: orange;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .articleBody {
+        color: white;
+        width: 95%;
+        line-height: 25px;
+        font-size: 16px;
+        text-align: left;
+
+        .articleDescription {
+            margin-top: 5px;
+        }
+    }
+}
