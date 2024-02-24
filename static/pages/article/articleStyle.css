@@ -33,15 +33,16 @@ body {
         height: 2px;
     }
 
-    a {
+    >a {
         color: yellowgreen;
     }
 
-    a:hover {
+    >a:hover {
+        cursor: pointer;
         font-weight: bold
     }
 
-    a:visited {
+    >a:visited {
         color: orange;
     }
 }

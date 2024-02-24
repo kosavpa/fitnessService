@@ -1,0 +1,119 @@
+body {
+    background-image: url("pc/bigBackground.jpeg");
+    background-size: cover;
+
+    .articles {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+
+        .article {
+            display: flex;
+            justify-content: start;
+            padding: 10px;
+            border-radius: 15px;
+            border: solid rgb(124, 124, 124);
+            margin: 20px;
+            background: linear-gradient(rgb(10, 10, 10), rgba(41, 41, 41, 0.965), rgb(10, 10, 10));
+
+            .imageArticle img {
+                border-radius: 10px;
+            }
+
+            .aboutArticle {
+                position: relative;
+                font-family: Verdana;
+                color: #dbd5d5;
+                margin-left: 10px;
+                width: 100%;
+
+                .header h3 {
+                    margin-top: 5px;
+                }
+
+                .more {
+                    position: absolute;
+                    bottom: 0px;
+                    right: 0px;
+                    padding: 10px 20px;
+
+                    >a:hover {
+                        cursor: pointer;
+                        font-weight: bold
+                    }
+
+                    >a:visited {
+                        color: rgba(255, 203, 105, 0.514)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-device-width: 1024px) and (max-device-height: 1370px) {
+    body {
+        background-image: url('device/smallBackground.jpg');
+        background-size: auto;
+    }
+}
+
+@media (max-device-width: 1024px) and (max-device-height: 600px) {
+    body {
+        .articles {
+            width: 95%;
+        }
+    }
+}
+
+@media (max-device-width: 540px) and (max-device-height: 720px) {
+    body {
+        .articles {
+            width: 95%;
+
+            .article {
+                flex-direction: column;
+
+                .imageArticle img {
+                    display: none;
+                }
+
+                .aboutArticle {
+                    position: static;
+
+                    .more {
+                        position: static;
+                        padding: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-device-width: 430px) and (max-device-height: 1370px) {
+    body {
+        .articles {
+            width: 95%;
+
+            .article {
+                flex-direction: column;
+
+                .imageArticle img {
+                    display: none;
+                }
+
+                .aboutArticle {
+                    position: static;
+
+                    .more {
+                        position: static;
+                        padding: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
