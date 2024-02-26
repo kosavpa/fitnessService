@@ -1,6 +1,7 @@
 body {
     background-image: url("pc/bigBackground.jpeg");
-    background-size: cover;
+    background-attachment: fixed;
+    background-size: auto;
 
     .articles {
         display: flex;
@@ -26,11 +27,12 @@ body {
                 position: relative;
                 font-family: Verdana;
                 color: #dbd5d5;
-                margin-left: 10px;
+                margin-left: 20px;
                 width: 100%;
 
                 .header h3 {
                     margin-top: 5px;
+                    text-decoration: underline;
                 }
 
                 .more {
