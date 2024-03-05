@@ -30,8 +30,8 @@ var createArticleElement = function(jArticle) {
     moreDiv.className = 'more'
     moreDiv.innerHTML = '<a>Детальнее</a>'
     moreDiv.onclick = function() {
-        location.href = 'http://localhost:8080/article'
-        location.header
+        localStorage.setItem('articleId', jArticle.id)
+        document.location.href = location.origin + '/article/article.html'
     }
 
     aboutArticleDiv.className = 'aboutArticle'
@@ -56,4 +56,4 @@ async function getArticles() {
     }
 }
   
-getArticles().then(data => console.log(data));
+getArticles().then(null, null);

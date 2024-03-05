@@ -25,26 +25,22 @@ public class ArticleHandler {
         this.articleService = articleService;
     }
 
+    @SuppressWarnings("unused")
     public Mono<ServerResponse> allArticles(ServerRequest request) {
         return ServerResponse.ok()
-                .headers(headers ->
-                        headers.add(
-                                HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN,
-                                request.headers().header("Origin").iterator().next()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Flux.fromIterable(articleService.allArticles()), Article.class);
     }
 
     public Mono<ServerResponse> articleById(ServerRequest request) {
-        Article article;
-
-        if (Objects.nonNull(String.valueOf(request.attribute("articleId")))) {
-            article = articleService.articleById(
+        if (Objects.nonNull(request.headers().header("articleId"))) {
+            Article article = articleService.articleById(
                     UUID.fromString(
-                            String.valueOf(request.attribute("articleId"))));
+                            request.headers().header("articleId").iterator().next()));
+
             return ServerResponse.ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(article, Article.class);
+                    .body(Mono.just(article), Article.class);
         }
 
         return ServerResponse.noContent()
