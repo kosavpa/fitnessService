@@ -31,14 +31,14 @@ public class User implements UserDetails {
     private UUID id;
 
     @NotBlank(message = "Логин не должен быть пустым")
-    @Size(min = 5, max = 255, message = "Логин должен содержать от 5 до 255 символов")
+    @Size(min = 5, max = 20, message = "Логин должен содержать от 5 до 20 символов")
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "Логин должен состоять из букв и/или цифр")
 
     @Column(name = "username")
     private String username;
 
     @NotBlank(message = "Пароль не должен быть пустым")
-    @Size(min = 6, max = 10, message = "Пароль должен содержать от 6 до 10 символов")
+    @Size(min = 4, max = 255, message = "Пароль должен содержать от 6 до 255 символов")
 
     @Column(name = "password")
     private String password;
@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getRole()));
+        return List.of(new SimpleGrantedAuthority(role.getRoleName()));
     }
 
     @Override

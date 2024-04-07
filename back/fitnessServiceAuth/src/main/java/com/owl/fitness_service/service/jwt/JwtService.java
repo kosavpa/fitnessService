@@ -17,11 +17,12 @@ import java.util.Map;
 
 @Component("jwtService")
 public class JwtService {
+    @SuppressWarnings("unused")
     @Value("${token.signing.key}")
     private String jwtSigningKey;
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(Map.of("role", ((User) userDetails).getRole().getRole()), userDetails);
+        return generateToken(Map.of("role", ((User) userDetails).getRole().getRoleName()), userDetails);
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {

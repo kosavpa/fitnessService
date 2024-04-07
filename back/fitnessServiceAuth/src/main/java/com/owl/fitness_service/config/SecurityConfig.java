@@ -1,6 +1,7 @@
 package com.owl.fitness_service.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,11 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import org.springframework.security.web.server.savedrequest.NoOpServerRequestCache;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 
 @SuppressWarnings("unused")
 @Configuration
 public class SecurityConfig {
+    @Value("${allowOrigin}")
+    private String allowOrigin;
+
     @Bean("webFilterChain")
     public SecurityWebFilterChain test(ServerHttpSecurity httpSecurity,
                                        ReactiveAuthenticationManager authManager) {
@@ -28,12 +35,26 @@ public class SecurityConfig {
                         .permitAll()
                         .pathMatchers(HttpMethod.GET, "/signin")
                         .authenticated())
-                .cors(ServerHttpSecurity.CorsSpec::disable)
+                .cors(this::configureCors)
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(httpBasicCustomizer -> httpBasicCustomizer.authenticationManager(authManager))
                 .requestCache(requestCacheSpec -> requestCacheSpec.requestCache(NoOpServerRequestCache.getInstance()))
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .build();
+    }
+
+    private void configureCors(ServerHttpSecurity.CorsSpec corsSpec) {
+        UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+
+        String[] corsStr = allowOrigin.split("\\|");
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        corsConfiguration.addAllowedOrigin(corsStr[1]);
+
+        corsConfigurationSource.registerCorsConfiguration(corsStr[0], corsConfiguration);
+
+        corsSpec.configurationSource(corsConfigurationSource);
     }
 
     @Bean("daoAuthManager")
