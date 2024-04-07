@@ -1,4 +1,4 @@
-package com.owl.fitness_service;
+package com.owl.fitness_service.entity;
 
 
 import lombok.AllArgsConstructor;
@@ -10,5 +10,5 @@ import lombok.Getter;
 public enum Role {
     USER("ROLE_USER"), ADMIN("ROLE_ADMIN");
 
-    private final String role;
+    private final String roleName;
 }

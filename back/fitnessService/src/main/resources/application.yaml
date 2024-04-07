@@ -2,6 +2,7 @@ spring:
   jpa:
     database: postgresql
     show-sql: true
+    generate-ddl: false
     hibernate:
       ddlAuto: none
 

@@ -1,7 +1,10 @@
-package com.owl.fitness_service;
+package com.owl.fitness_service.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Entity
+@Entity(name = "user")
 @Table(name = "fitness_user")
 public class User implements UserDetails {
     @Id
@@ -27,8 +30,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank(message = "Логин не должен быть пустым")
+    @Size(min = 5, max = 255, message = "Логин должен содержать от 5 до 255 символов")
+    @Pattern(regexp = "[a-zA-Z0-9]+", message = "Логин должен состоять из букв и/или цифр")
+
     @Column(name = "username")
     private String username;
+
+    @NotBlank(message = "Пароль не должен быть пустым")
+    @Size(min = 6, max = 10, message = "Пароль должен содержать от 6 до 10 символов")
 
     @Column(name = "password")
     private String password;

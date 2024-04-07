@@ -1,36 +1,42 @@
-package com.owl.fitness_service;
+package com.owl.fitness_service.config;
 
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.ReactiveAuthenticationManagerAdapter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import org.springframework.security.web.server.savedrequest.NoOpServerRequestCache;
 
 
 @SuppressWarnings("unused")
 @Configuration
 public class SecurityConfig {
-    @Bean
+    @Bean("webFilterChain")
     public SecurityWebFilterChain test(ServerHttpSecurity httpSecurity,
                                        ReactiveAuthenticationManager authManager) {
         return httpSecurity.authorizeExchange(auth -> auth
-                        .pathMatchers("/")
+                        .pathMatchers(HttpMethod.POST, "/signup")
                         .permitAll()
-                        .pathMatchers("/user")
-                        .hasAnyRole("USER", "ADMIN")
-                        .pathMatchers("/admin")
-                        .hasAnyRole("ADMIN"))
+                        .pathMatchers(HttpMethod.GET, "/signin")
+                        .authenticated())
+                .cors(ServerHttpSecurity.CorsSpec::disable)
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(httpBasicCustomizer -> httpBasicCustomizer.authenticationManager(authManager))
+                .requestCache(requestCacheSpec -> requestCacheSpec.requestCache(NoOpServerRequestCache.getInstance()))
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .build();
     }
 
-    @Bean
+    @Bean("daoAuthManager")
     public ReactiveAuthenticationManager manager(UserDetailsService userDetailsService,
                                                  PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -39,5 +45,10 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 
         return new ReactiveAuthenticationManagerAdapter(new ProviderManager(authenticationProvider));
+    }
+
+    @Bean("passwordEncoder")
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
