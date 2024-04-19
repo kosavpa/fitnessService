@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private UUID id;
 
     @NotBlank(message = "Логин не должен быть пустым")
-    @Size(min = 5, max = 20, message = "Логин должен содержать от 5 до 20 символов")
+    @Size(min = 5, max = 255, message = "Логин должен содержать от 5 до 20 символов")
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "Логин должен состоять из букв и/или цифр")
 
     @Column(name = "username")
