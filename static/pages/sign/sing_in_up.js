@@ -1,23 +1,39 @@
-let form = document.getElementsByClassName('signinRequestForm')[0]
+if (document.referrer == 'http://localhost/sign/') {
+    getElementByClassName('sbmt').setAttribute('value', 'Регистрация')
 
-if (location.pathname == 'signin') {
-    form.setAttribute('method', 'GET')
-    form.setAttribute('action', 'http://localhost:8080/signin')
+    getElementByClassName('regDiv').style.display = 'none'
+} else {
+    getElementByClassName('repeatPasswordDiv').style.display = 'none'
 
-    let repeatPasswordDiv = document.getElementsByClassName('repeatPasswordDiv')[0]
-
-    repeatPasswordDiv.style.display = 'none'
-
-    let regDiv = document.getElementsByClassName('regDiv')[0]
-
-    regDiv.onclick = function () {
+    getElementByClassName('regDiv').onclick = function () {
         document.location.href = location.origin + '/signup'
     }
-} else if (location.pathname == 'signup') {
-    form.setAttribute('method', 'POST')
-    form.setAttribute('action', 'http://localhost:8080/signup')
 
-    let repeatPasswordDiv = document.getElementsByClassName('regDiv')[0]
+    getElementByClassName('sbmt').setAttribute('value', 'Вход')
 
-    repeatPasswordDiv.style.display = 'none'
+    getElementByClassName('sbmt').addEventListener("click", function (evnt) {
+        evnt.preventDefault()
+
+        const form = new FormData(getElementByClassName('sign_in_up_RequestForm'))
+
+        if (!form.get('usrnm') || form.get('usrnm').length < 4 || !form.get('pwd') || form.get('pwd').length < 4) {
+            alert('Что за дерьмовые значения?')
+
+            return false
+        }
+
+        (function () {
+            fetch('http://localhost:8080/signin',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(form.get('usrnm') + ':' + form.get('pwd'))
+                    }
+                }).then(response => console.log(response))
+        }())
+    })
+}
+
+function getElementByClassName(classname) {
+    return document.getElementsByClassName(classname)[0]
 }
