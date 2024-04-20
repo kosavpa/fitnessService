@@ -29,7 +29,18 @@ if (document.referrer == 'http://localhost/sign/') {
                     headers: {
                         'Authorization': 'Basic ' + btoa(form.get('usrnm') + ':' + form.get('pwd'))
                     }
-                }).then(response => console.log(response))
+                }).then(response => response.text())
+                .then(jwt => {
+                    console.log(jwt)
+
+                    let payload = jwt.split('.')[1]
+
+                    console.log(payload)
+
+                    let base64 = window.Base64
+
+                    console.log(JSON.parse(base64.decode(payload)))
+                })
         }())
     })
 }
