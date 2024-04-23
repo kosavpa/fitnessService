@@ -4,6 +4,7 @@ package com.owl.fitness_service.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -18,6 +19,7 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 import org.springframework.security.web.server.savedrequest.NoOpServerRequestCache;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.reactive.function.server.ServerRequest;
 
 
 @SuppressWarnings("unused")
@@ -27,7 +29,7 @@ public class SecurityConfig {
     private String allowOrigin;
 
     @Bean("webFilterChain")
-    public SecurityWebFilterChain test(ServerHttpSecurity httpSecurity,
+    public SecurityWebFilterChain getMainConfig(ServerHttpSecurity httpSecurity,
                                        ReactiveAuthenticationManager authManager) {
         return httpSecurity.authorizeExchange(auth -> auth
                         .pathMatchers(HttpMethod.POST, "/signup")
@@ -45,16 +47,15 @@ public class SecurityConfig {
     private void configureCors(ServerHttpSecurity.CorsSpec corsSpec) {
         UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
 
-        String[] corsStr = allowOrigin.split("\\|");
-
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.addAllowedOrigin(corsStr[1]);
+        corsConfiguration.addAllowedOrigin(allowOrigin);
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addExposedHeader(HttpHeaders.LOCATION);
 
-        corsConfigurationSource.registerCorsConfiguration(corsStr[0], corsConfiguration);
+        corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 
         corsSpec.configurationSource(corsConfigurationSource);
     }

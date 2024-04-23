@@ -31,14 +31,14 @@ public class User implements UserDetails {
     private UUID id;
 
     @NotBlank(message = "Логин не должен быть пустым")
-    @Size(min = 4, max = 255, message = "Логин должен содержать от 5 до 20 символов")
+    @Size(min = 4, max = 255, message = "Логин должен содержать от 4 до 20 символов")
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "Логин должен состоять из букв и/или цифр")
 
     @Column(name = "username")
     private String username;
 
     @NotBlank(message = "Пароль не должен быть пустым")
-    @Size(min = 4, max = 255, message = "Пароль должен содержать от 6 до 255 символов")
+    @Size(min = 4, max = 255, message = "Пароль должен содержать от 4 до 255 символов")
 
     @Column(name = "password")
     private String password;

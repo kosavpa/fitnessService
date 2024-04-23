@@ -39,7 +39,7 @@ public class SignUpRouter implements RouterFunction<ServerResponse> {
     }
 
     private ServerResponse getCreated() {
-        return ServerResponse.created(URI.create("/"))
+        return ServerResponse.created(URI.create("/signin"))
                 .contentType(MediaType.TEXT_PLAIN)
                 .build()
                 .block();

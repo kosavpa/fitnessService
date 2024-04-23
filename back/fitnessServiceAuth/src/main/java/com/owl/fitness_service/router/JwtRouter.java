@@ -25,9 +25,12 @@ public class JwtRouter implements RouterFunction<ServerResponse> {
     @Override
     public Mono<HandlerFunction<ServerResponse>> route(@Nonnull ServerRequest request) {
         if (RequestPredicates.GET("/signin").test(request)) {
-            return Mono.just(req -> ServerResponse.ok()
-                    .contentType(MediaType.TEXT_PLAIN)
-                    .body(generateTokenForBody(), String.class));
+
+            return Mono.just(req ->
+                    generateTokenForBody()
+                            .map(token -> ServerResponse.ok()
+                                    .contentType(MediaType.TEXT_PLAIN)
+                                    .body(Mono.just(token), String.class).block()));
         } else {
             return Mono.empty();
         }

@@ -1,5 +1,5 @@
     body {
-        background-image: url('sing_in_up.jpg');
+        background-image: url('signup.jpg');
         background-attachment: fixed;
         background-size: cover;
         width: 100%;
@@ -42,35 +42,6 @@
                 margin-top: 20px;
             }
         }
-
-        .regDiv {
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 20px;
-            font-weight: bold;
-            line-height: 30px;
-            font-size: 28px;
-            color: black;
-            border-radius: 10px;
-            border: solid black 2px;
-            height: 56px;
-            background-color: rgba(166, 122, 0, 0.6);
-            width: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 180px;
-        }
-
-        .regDiv:hover {
-            box-shadow: 5px 5px 10px 5px #daa000, -5px -5px 10px 5px #daa000;
-            transform: translateY(-1px);
-        }
-
-        .regDiv:active {
-            box-shadow: inset 1px 1px 10px 1px #000000, inset -1px -1px 10px 1px #000000;
-            transform: translateY(1px);
-        }
     }
 
     @media (max-device-width: 1280px) and (max-device-height: 1368px) {
@@ -91,10 +62,6 @@
                 .submitDiv {
                     margin-top: 10%;
                 }
-            }
-
-            .regDiv {
-                width: 30%;
             }
         }
     }
