@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Service
+@Service("articleService")
 public class ArticleServiceImpl implements ArticleService {
     protected ArticleRepository repository;
 

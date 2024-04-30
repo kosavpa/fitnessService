@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 
-@Repository
+@Repository("articleRepo")
 public interface ArticleRepository extends JpaRepository<Article, UUID> {
 }

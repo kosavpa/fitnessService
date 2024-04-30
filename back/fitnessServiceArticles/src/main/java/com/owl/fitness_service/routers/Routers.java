@@ -11,24 +11,25 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+
 @SuppressWarnings("unused")
 @Configuration(proxyBeanMethods = false)
 public class Routers {
-    @Bean
+    @Bean("allArticles")
     public RouterFunction<ServerResponse> getAllArticleRouter(ArticleHandler handler) {
         return RouterFunctions.route(RequestPredicates.GET("/articles")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 handler::allArticles);
     }
 
-    @Bean
+    @Bean("articleById")
     public RouterFunction<ServerResponse> getArticleByIdRouter(ArticleHandler handler) {
         return RouterFunctions.route(RequestPredicates.GET("/article")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 handler::articleById);
     }
 
-    @Bean
+    @Bean("articleImage")
     public RouterFunction<ServerResponse> getImgByPathRouter(ImageHandler handler) {
         return RouterFunctions.route(RequestPredicates.GET("/img/{relativePath}")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_OCTET_STREAM)),

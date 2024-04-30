@@ -4,7 +4,6 @@ package com.owl.fitness_service.handlers;
 import com.owl.fitness_service.repository.db.services.ArticleService;
 import com.owl.fitness_service.repository.entites.Article;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -16,7 +15,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 
-@Component
+@Component("articleHandler")
 public class ArticleHandler {
     protected ArticleService articleService;
 
@@ -33,17 +32,18 @@ public class ArticleHandler {
     }
 
     public Mono<ServerResponse> articleById(ServerRequest request) {
-        if (Objects.nonNull(request.headers().header("articleId"))) {
-            Article article = articleService.articleById(
-                    UUID.fromString(
-                            request.headers().header("articleId").iterator().next()));
+        Article article = articleService.articleById(
+                UUID.fromString(
+                        request.headers().header("articleId").iterator().next()));
 
-            return ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(Mono.just(article), Article.class);
+        if (Objects.isNull(article)) {
+            return ServerResponse.noContent()
+                    .build();
         }
 
-        return ServerResponse.noContent()
-                .build();
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(article), Article.class);
+
     }
 }

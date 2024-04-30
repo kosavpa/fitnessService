@@ -2,7 +2,6 @@ package com.owl.fitness_service.handlers;
 
 
 import lombok.SneakyThrows;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -14,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 
-@Component
+@Component("imageHandler")
 public class ImageHandler {
     @SneakyThrows
     public Mono<ServerResponse> getImgByPath(ServerRequest request) {

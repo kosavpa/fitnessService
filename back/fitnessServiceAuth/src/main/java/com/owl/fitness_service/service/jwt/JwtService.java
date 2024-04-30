@@ -8,14 +8,14 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
 
-@Component("jwtService")
+@Service("jwtService")
 public class JwtService {
     @SuppressWarnings("unused")
     @Value("${token.signing.key}")
