@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: fitness-service-config-server
+  profiles:
+    active:
+      - git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://kosavpa: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@github.com/kosavpa/fitness-service-config-server.git
+server:
+  port:
+    8070

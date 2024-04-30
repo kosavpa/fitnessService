@@ -19,7 +19,6 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 import org.springframework.security.web.server.savedrequest.NoOpServerRequestCache;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.reactive.function.server.ServerRequest;
 
 
 @SuppressWarnings("unused")

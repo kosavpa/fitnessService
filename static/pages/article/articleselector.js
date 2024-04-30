@@ -1,33 +1,58 @@
 var createArticleElement = function(jArticle) {
-    let articlesDiv = document.getElementsByClassName('articleBody')
+    let articlesDiv = getElementByClassName('articleBody')
 
+    articlesDiv.appendChild(createArticleHeaderDiv(jArticle))
+    articlesDiv.appendChild(createSeparator())
+    articlesDiv.appendChild(createArticleTextDiv(jArticle))
+}
 
-    let articleHeaderDiv = document.createElement('div')
-    let articleHeaderTextH2 = document.createElement('h2')
-    let articleHeaderDateDiv = document.createElement('div')
-
-    articleHeaderTextH2.className = 'articleHeaderText'
-    articleHeaderTextH2.innerHTML = jArticle.header
-    articleHeaderDateDiv.className = 'articleHeaderDate'
-    articleHeaderDateDiv.innerHTML = jArticle.date
-    articleHeaderDiv.className = 'articleHeader'
-    articleHeaderDiv.appendChild(articleHeaderTextH2)
-    articleHeaderDiv.appendChild(articleHeaderDateDiv)
-
-
-    let separatorHr = document.createElement('hr')
-
-    separatorHr.className = 'separator'
-
-    
+function createArticleTextDiv(jArticle) {
     let articleTextDiv = document.createElement('div')
 
     articleTextDiv.className = 'articleText'
     articleTextDiv.innerHTML = jArticle.text
 
-    articlesDiv[0].appendChild(articleHeaderDiv)
-    articlesDiv[0].appendChild(separatorHr)
-    articlesDiv[0].appendChild(articleTextDiv)
+    return articleTextDiv
+}
+
+function createArticleHeaderDiv(jArticle) {
+    let articleHeaderDiv = document.createElement('div')
+
+    articleHeaderDiv.className = 'articleHeader'
+    articleHeaderDiv.appendChild(createHeaderTextElement(jArticle))
+    articleHeaderDiv.appendChild(createHeaderDateElement(jArticle))
+
+    return articleHeaderDiv
+}
+
+function createSeparator() {
+    let separatorHr = document.createElement('hr')
+
+    separatorHr.className = 'separator'
+
+    return separatorHr
+}
+
+function createHeaderTextElement(jArticle) {
+    let articleHeaderTextH2 = document.createElement('h2')
+
+    articleHeaderTextH2.className = 'articleHeaderText'
+    articleHeaderTextH2.innerHTML = jArticle.header
+
+    return articleHeaderTextH2
+}
+
+function createHeaderDateElement(jArticle) {
+    let articleHeaderDateDiv = document.createElement('div')   
+    
+    articleHeaderDateDiv.className = 'articleHeaderDate'
+    articleHeaderDateDiv.innerHTML = jArticle.date
+
+    return articleHeaderDateDiv
+}
+
+function getElementByClassName(className) {
+    return document.getElementsByClassName(className)[0]
 }
 
 async function getArticles() {
@@ -38,8 +63,6 @@ async function getArticles() {
             'Accept': 'application/json'}})
 
     createArticleElement(await response.json())
-
-    localStorage.removeItem('articleId')
 }
   
 getArticles().then(null, null);

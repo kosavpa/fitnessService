@@ -1,49 +1,78 @@
-var createArticleElement = function(jArticle) {
-    let articlesDiv = document.getElementsByClassName('articles')
+function createArticleElement(jArticle) {
+    getElementByClassName('articles').appendChild(createArticleDiv(jArticle))
+}
 
+function createArticleDiv(jArticle) {
     let articleDiv = document.createElement('div')
 
+    articleDiv.className = 'article'
+    articleDiv.appendChild(createImageArticleDiv(jArticle))
+    articleDiv.appendChild(createAboutArticleDiv(jArticle))
+
+    return articleDiv
+}
+
+function createImageArticleDiv(jArticle) {
     let imageArticleDiv = document.createElement('div')
+
     let imageArticle = document.createElement('img')
 
     imageArticle.src = 'http://localhost:8080/img/' + jArticle.relativeImgPath
-    
+
     imageArticleDiv.className = 'imageArticle'
     imageArticleDiv.appendChild(imageArticle)
 
+    return imageArticleDiv
+}
+
+function createAboutArticleDiv(jArticle) {
     let aboutArticleDiv = document.createElement('div')
-    let headerDiv = document.createElement('div')
-    let h3 = document.createElement('h3')
 
-    h3.innerHTML = jArticle.header
-    headerDiv.className = 'header'
-    headerDiv.appendChild(h3)
+    aboutArticleDiv.className = 'aboutArticle'
+    aboutArticleDiv.appendChild(createHeaderAboutArticleDiv(jArticle))
+    aboutArticleDiv.appendChild(createAnonsArticleDiv(jArticle))
+    aboutArticleDiv.appendChild(createMoreArticleDiv(jArticle))
 
+    return aboutArticleDiv
+}
 
-    let anonsDiv = document.createElement('div')
-
-    anonsDiv.className = 'anons'
-    anonsDiv.innerHTML = jArticle.anons
-    
+function createMoreArticleDiv(jArticle) {
     let moreDiv = document.createElement('div')
 
     moreDiv.className = 'more'
     moreDiv.innerHTML = '<a>Детальнее</a>'
-    moreDiv.onclick = function() {
+    moreDiv.onclick = function () {
         localStorage.setItem('articleId', jArticle.id)
         document.location.href = location.origin + '/article/article.html'
     }
 
-    aboutArticleDiv.className = 'aboutArticle'
-    aboutArticleDiv.appendChild(headerDiv)
-    aboutArticleDiv.appendChild(anonsDiv)
-    aboutArticleDiv.appendChild(moreDiv)
+    return moreDiv
+}
 
-    articleDiv.className = 'article'
-    articleDiv.appendChild(imageArticleDiv)
-    articleDiv.appendChild(aboutArticleDiv)
+function createHeaderAboutArticleDiv(jArticle) {
+    let anonsDiv = document.createElement('div')
 
-    articlesDiv[0].appendChild(articleDiv)
+    anonsDiv.className = 'anons'
+    anonsDiv.innerHTML = jArticle.anons
+
+    return anonsDiv
+}
+
+function createAnonsArticleDiv(jArticle) {
+    let headerDiv = document.createElement('div')
+
+    let h3 = document.createElement('h3')
+
+    h3.innerHTML = jArticle.header
+
+    headerDiv.className = 'header'
+    headerDiv.appendChild(h3)
+
+    return headerDiv
+}
+
+function getElementByClassName(className) {
+    return document.getElementsByClassName(className)[0]
 }
 
 async function getArticles() {
@@ -51,9 +80,9 @@ async function getArticles() {
 
     const data = await response.json();
 
-    for(article of data) {
+    for (article of data) {
         createArticleElement(article)
     }
 }
-  
+
 getArticles().then(null, null);
