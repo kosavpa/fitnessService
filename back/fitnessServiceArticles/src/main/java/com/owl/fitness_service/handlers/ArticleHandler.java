@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Component("articleHandler")
 public class ArticleHandler {
-    protected ArticleService articleService;
+    protected final ArticleService articleService;
 
     @Autowired
     public ArticleHandler(ArticleService articleService) {

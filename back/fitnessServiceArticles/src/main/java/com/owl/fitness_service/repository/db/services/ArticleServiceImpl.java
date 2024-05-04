@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service("articleService")
 public class ArticleServiceImpl implements ArticleService {
-    protected ArticleRepository repository;
+    protected final ArticleRepository repository;
 
     @Autowired
     public ArticleServiceImpl(ArticleRepository repository) {
