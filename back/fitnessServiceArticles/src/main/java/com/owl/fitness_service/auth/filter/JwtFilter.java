@@ -7,12 +7,15 @@ import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
+import reactor.util.context.Context;
 
 import java.util.Optional;
 
@@ -32,16 +35,28 @@ public class JwtFilter implements WebFilter {
     @Nonnull
     @Override
     public Mono<Void> filter(@Nonnull ServerWebExchange exchange, @Nonnull WebFilterChain chain) {
-        extractJwtCookie(exchange.getRequest())
-                .ifPresent(tokenCookie -> {
-                    String token = tokenCookie.getValue();
+        return chain.filter(exchange)
+                .contextWrite(context -> withSecurityContext(context, exchange));
+    }
 
-                    jwtService.checkTokenExpired(token);
+    private Context withSecurityContext(Context mainContext, ServerWebExchange exchange) {
+        return mainContext.putAll(
+                getMonoForContext(exchange)
+                        .as(ReactiveSecurityContextHolder::withSecurityContext)
+                        .readOnly());
+    }
 
-                    ReactiveSecurityContextHolder.withAuthentication(authService.createAuthByJwt(token));
-                });
+    private Mono<SecurityContextImpl> getMonoForContext(ServerWebExchange exchange) {
+        return extractJwtCookie(exchange.getRequest())
+                .map(this::checkFromCookieTokenAndGetAuth)
+                .map(authentication -> Mono.just(new SecurityContextImpl(authentication)))
+                .orElse(Mono.empty());
+    }
 
-        return chain.filter(exchange);
+    private Authentication checkFromCookieTokenAndGetAuth(HttpCookie tokenCookie) {
+        jwtService.checkTokenExpired(tokenCookie.getValue());
+
+        return authService.createAuthByJwt(tokenCookie.getValue());
     }
 
     private Optional<HttpCookie> extractJwtCookie(ServerHttpRequest request) {

@@ -26,7 +26,7 @@ public class JwtTokenService {
     }
 
     public void checkTokenExpired(String token) {
-        if (!extractExpiration(token).before(new Date())) {
+        if (extractExpiration(token).before(new Date())) {
             throw new AccessDeniedException("Token is expired!");
         }
     }

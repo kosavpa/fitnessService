@@ -35,6 +35,9 @@ public class AuthService {
                 jwtService.getRoleListByToken(jwt),
                 jwtService.getUsernameByToken(jwt));
 
-        return new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(
+                principal,
+                principal.getPassword(),
+                principal.getAuthorities());
     }
 }
