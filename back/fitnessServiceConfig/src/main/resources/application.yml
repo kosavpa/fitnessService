@@ -1,4 +1,6 @@
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: fitness-service-config-server
   profiles:
@@ -11,4 +13,8 @@ spring:
           uri: https://kosavpa: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@github.com/kosavpa/fitness-service-config-server.git
 server:
   port:
-    8070
+    8060
+allowOrigin: http://localhost
+security:
+  basic:
+    enabled: false

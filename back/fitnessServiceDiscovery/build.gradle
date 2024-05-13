@@ -3,7 +3,7 @@ import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.5'
+    id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'com.bmuschko.docker-remote-api' version '9.4.0'
 }
@@ -13,6 +13,12 @@ version = ''
 
 java {
     sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
@@ -31,11 +37,13 @@ dependencyManagement {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.cloud:spring-cloud-config-server'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server') {
+        exclude(group: 'org.springframework.cloud', module: 'spring-cloud-starter-ribbon')
+        exclude(group: 'com.netflix.ribbon', module: 'ribbon-eureka')
+    }
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
 bootJar {
@@ -49,7 +57,7 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
     copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
     entryPoint 'java'
     defaultCommand '-jar', "/app/${rootProject.name}.jar"
-    exposePort 8070
+    exposePort 8080
 }
 
 task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {
