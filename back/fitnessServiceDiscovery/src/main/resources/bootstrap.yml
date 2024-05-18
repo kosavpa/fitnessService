@@ -5,7 +5,4 @@ spring:
     active: default
   cloud:
     config:
-      uri: http://localhost:8090
-    loadbalancer:
-      ribbon:
-        enabled: false
+      uri: http://configClient:configClient@localhost:8060

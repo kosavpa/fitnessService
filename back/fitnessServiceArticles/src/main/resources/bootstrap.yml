@@ -1,8 +1,10 @@
 spring:
   application:
     name: article_service
+
   profiles:
     active: default
+
   cloud:
     config:
-      uri: http://localhost:8070
+      uri: http://configClient:configClient@localhost:8060

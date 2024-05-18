@@ -1,8 +1,10 @@
 spring:
   application:
     name: auth_service
+
   profiles:
     active: default
+
   cloud:
     config:
       uri: http://configClient:configClient@localhost:8060

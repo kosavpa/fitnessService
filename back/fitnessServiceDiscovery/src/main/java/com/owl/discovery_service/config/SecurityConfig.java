@@ -1,21 +1,24 @@
-package com.owl.config_service.config.security;
+package com.owl.discovery_service.config;
 
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
-import org.springframework.security.web.server.savedrequest.NoOpServerRequestCache;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.NullSecurityContextRepository;
+import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 
 @SuppressWarnings("unused")
@@ -25,21 +28,21 @@ public class SecurityConfig {
     private String allowOrigin;
 
     @Bean("webFilterChain")
-    public SecurityWebFilterChain getMainConfig(ServerHttpSecurity httpSecurity) {
-        return httpSecurity.authorizeExchange(auth -> auth
-                        .pathMatchers("/actuator/**")
+    public SecurityFilterChain getMainConfig(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/actuator/**")
                         .hasRole("ACTUATOR_CLIENT")
-                        .pathMatchers("/**")
+                        .requestMatchers("/**")
                         .hasRole("CONFIG_CLIENT"))
                 .cors(this::configureCors)
                 .httpBasic(httpBasicSpec ->
-                        httpBasicSpec.securityContextRepository(NoOpServerSecurityContextRepository.getInstance()))
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .requestCache(requestCacheSpec -> requestCacheSpec.requestCache(NoOpServerRequestCache.getInstance()))
+                        httpBasicSpec.securityContextRepository(new NullSecurityContextRepository()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .requestCache(requestCacheSpec -> requestCacheSpec.requestCache(new NullRequestCache()))
                 .build();
     }
 
-    private void configureCors(ServerHttpSecurity.CorsSpec corsSpec) {
+    private void configureCors(CorsConfigurer<HttpSecurity> corsSpec) {
         UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
 
         CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -56,7 +59,7 @@ public class SecurityConfig {
     }
 
     @Bean("simpleUserDetails")
-    public MapReactiveUserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails configClient = User.builder()
                 .username("configClient")
                 .password("configClient")
@@ -70,7 +73,8 @@ public class SecurityConfig {
                 .roles("ACTUATOR_CLIENT")
                 .passwordEncoder(passwordEncoder::encode)
                 .build();
-        return new MapReactiveUserDetailsService(configClient, actuatorClient);
+
+        return new InMemoryUserDetailsManager(configClient, actuatorClient);
     }
 
     @Bean("passwordEncoder")

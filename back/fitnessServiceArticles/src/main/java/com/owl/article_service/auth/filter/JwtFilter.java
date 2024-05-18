@@ -47,6 +47,9 @@ public class JwtFilter implements WebFilter {
     }
 
     private Mono<SecurityContextImpl> getMonoForContext(ServerWebExchange exchange) {
+        if ("/articles".equals(exchange.getRequest().getPath().value()))
+            return Mono.empty();
+
         return extractJwtCookie(exchange.getRequest())
                 .map(this::checkFromCookieTokenAndGetAuth)
                 .map(authentication -> Mono.just(new SecurityContextImpl(authentication)))
