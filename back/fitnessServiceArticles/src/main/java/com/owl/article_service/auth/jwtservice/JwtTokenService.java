@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -27,7 +27,7 @@ public class JwtTokenService {
 
     public void checkTokenExpired(String token) {
         if (extractExpiration(token).before(new Date())) {
-            throw new AccessDeniedException("Token is expired!");
+            throw new CredentialsExpiredException("Token is expired!");
         }
     }
 

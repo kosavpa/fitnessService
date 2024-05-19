@@ -1,11 +1,13 @@
-package com.owl.article_service;
+package owl.home.gateway;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
-public class FitnessServiceApplication {
+public class GatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FitnessServiceApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 }
