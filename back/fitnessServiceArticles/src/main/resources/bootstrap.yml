@@ -1,6 +1,6 @@
 spring:
   application:
-    name: article_service
+    name: article-service
 
   profiles:
     active: default

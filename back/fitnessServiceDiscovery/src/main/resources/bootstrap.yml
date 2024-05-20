@@ -1,8 +1,10 @@
 spring:
   application:
-    name: discovery_service
+    name: discovery-service
+
   profiles:
     active: default
+
   cloud:
     config:
       uri: http://configClient:configClient@localhost:8060
