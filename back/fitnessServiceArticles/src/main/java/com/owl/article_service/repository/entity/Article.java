@@ -1,4 +1,4 @@
-package com.owl.article_service.repository.entities;
+package com.owl.article_service.repository.entity;
 
 
 import jakarta.persistence.*;

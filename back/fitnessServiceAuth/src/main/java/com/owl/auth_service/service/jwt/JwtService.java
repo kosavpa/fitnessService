@@ -1,7 +1,7 @@
 package com.owl.auth_service.service.jwt;
 
 
-import com.owl.auth_service.entity.User;
+import com.owl.auth_service.repository.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;

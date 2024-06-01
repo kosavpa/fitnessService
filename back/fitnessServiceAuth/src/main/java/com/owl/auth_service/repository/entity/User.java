@@ -1,4 +1,4 @@
-package com.owl.auth_service.entity;
+package com.owl.auth_service.repository.entity;
 
 
 import jakarta.persistence.*;

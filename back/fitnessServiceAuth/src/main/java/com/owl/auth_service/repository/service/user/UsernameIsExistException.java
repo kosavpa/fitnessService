@@ -1,4 +1,4 @@
-package com.owl.auth_service.service.user;
+package com.owl.auth_service.repository.service.user;
 
 public class UsernameIsExistException extends RuntimeException {
     public UsernameIsExistException() {

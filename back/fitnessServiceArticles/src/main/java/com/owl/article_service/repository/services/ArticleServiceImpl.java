@@ -1,6 +1,6 @@
 package com.owl.article_service.repository.services;
 
-import com.owl.article_service.repository.entities.Article;
+import com.owl.article_service.repository.entity.Article;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,9 @@
 package com.owl.auth_service.router;
 
 
-import com.owl.auth_service.entity.User;
-import com.owl.auth_service.service.user.UserService;
-import com.owl.auth_service.service.user.UsernameIsExistException;
+import com.owl.auth_service.repository.entity.User;
+import com.owl.auth_service.repository.service.user.UserService;
+import com.owl.auth_service.repository.service.user.UsernameIsExistException;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import java.net.URI;
 import java.util.stream.Collectors;
 
 
+@SuppressWarnings("unused")
 @Component("signUpRouter")
 public class SignUpRouter implements RouterFunction<ServerResponse> {
     private final UserService service;

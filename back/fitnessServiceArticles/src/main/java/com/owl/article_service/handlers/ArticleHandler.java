@@ -1,8 +1,8 @@
 package com.owl.article_service.handlers;
 
 
-import com.owl.article_service.repository.db.services.ArticleService;
-import com.owl.article_service.repository.entites.Article;
+import com.owl.article_service.repository.services.ArticleService;
+import com.owl.article_service.repository.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

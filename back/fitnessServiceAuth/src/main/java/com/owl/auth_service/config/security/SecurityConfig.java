@@ -1,4 +1,4 @@
-package com.owl.auth_service.config;
+package com.owl.auth_service.config.security;
 
 
 import org.springframework.beans.factory.annotation.Value;
