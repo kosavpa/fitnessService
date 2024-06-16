@@ -12,19 +12,6 @@ function createArticleDiv(jArticle) {
     return articleDiv
 }
 
-function createImageArticleDiv(jArticle) {
-    let imageArticleDiv = document.createElement('div')
-
-    let imageArticle = document.createElement('img')
-
-    imageArticle.src = 'http://localhost:8080/img/' + jArticle.relativeImgPath
-
-    imageArticleDiv.className = 'imageArticle'
-    imageArticleDiv.appendChild(imageArticle)
-
-    return imageArticleDiv
-}
-
 function createAboutArticleDiv(jArticle) {
     let aboutArticleDiv = document.createElement('div')
 
