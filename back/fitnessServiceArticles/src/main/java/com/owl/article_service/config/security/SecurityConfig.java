@@ -19,11 +19,8 @@ import org.springframework.web.server.WebFilter;
 @SuppressWarnings("unused")
 @Configuration
 public class SecurityConfig {
-    private final String allowOrigin;
-
-    public SecurityConfig(@Value("${allowOrigin}") String allowOrigin) {
-        this.allowOrigin = allowOrigin;
-    }
+    @Value("${allowOrigin}")
+    private String allowOrigin;
 
     @Bean("webFilterChain")
     public SecurityWebFilterChain getMainConfig(ServerHttpSecurity httpSecurity,
