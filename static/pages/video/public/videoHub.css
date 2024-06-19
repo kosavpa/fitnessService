@@ -1,0 +1,30 @@
+body {
+    background-image: url("pc/bigBackground.jpeg");
+    background-attachment: fixed;
+    background-size: auto;
+
+    .multiWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .singleVideoWrapper {
+            margin: 10px 0px;
+
+            .video {
+                border-radius: 15px;
+                border: solid rgb(124, 124, 124);
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media (max-device-width: 1024px) and (max-device-height: 1370px) {
+    body {
+        background-image: url('device/smallBackground.jpg');
+        background-size: cover;
+    }
+}
