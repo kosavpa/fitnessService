@@ -49,7 +49,7 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
     copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
     entryPoint 'java'
     defaultCommand '-jar', "/app/${rootProject.name}.jar"
-    exposePort 8070
+    exposePort 8060
 }
 
 task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {

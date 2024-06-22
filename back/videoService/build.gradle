@@ -1,7 +1,11 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'com.bmuschko.docker-remote-api' version '9.4.0'
 }
 
 group = 'owl.home'
@@ -47,3 +51,25 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	destinationDirectory = file("${project.buildDir}/docker/")
+}
+
+task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
+	destFile = project.file('build/docker/Dockerfile')
+
+	from 'openjdk:17-alpine'
+	copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
+	entryPoint 'java'
+	defaultCommand '-jar', "/app/${rootProject.name}.jar"
+	exposePort 8110
+}
+
+task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {
+	inputDir = file("build/docker/")
+
+	getImages().add("kosavpa/${rootProject.name}:latest")
+}
+
+task createDockerfileAndBuildImage(dependsOn: [bootJar, createDockerfile, buildImage])

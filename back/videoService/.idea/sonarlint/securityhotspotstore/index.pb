@@ -9,3 +9,5 @@ g
 7src/main/java/owl/home/videoService/config/Configs.java,2\4\24f9bc45424b8420d882b9d0f2004727bc8d33aa
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+;
+gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
