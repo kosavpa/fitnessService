@@ -1,0 +1,14 @@
+spring:
+  rsocket:
+    server:
+      port: 8080
+
+  application:
+    name: chat-service
+
+  profiles:
+    active: default
+
+  cloud:
+    config:
+      uri: http://configClient:configClient@localhost:8060
