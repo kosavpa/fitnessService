@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 
-@Entity(name = "Article")
-@Table(name = "ARTICLES")
+@Entity(name = "Message")
+@Table(name = "MESSAGE")
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class Message {
     @Column(name = "SENDER")
     private String sender;
 
-    @Column(name = "TEXT")
+    @Column(name = "TEXT", length = 500)
     private String text;
 
     @Column(name = "PUBLICATION_DATE")

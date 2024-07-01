@@ -4,6 +4,7 @@ package owl.home.fitnessService.service;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.reactive.socket.WebSocketMessage;
 import owl.home.fitnessService.entity.Message;
 
 import java.util.List;
@@ -34,5 +35,11 @@ public class MessageService {
                 .getMaxResults();
 
         return messageCount % 30 == 0 ? messageCount / 30 : messageCount / 30 + 1;
+    }
+
+    public WebSocketMessage saveMessage(WebSocketMessage webSocketMessage) {
+        //save
+
+        return webSocketMessage;
     }
 }
