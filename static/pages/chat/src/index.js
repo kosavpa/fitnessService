@@ -1,3 +1,4 @@
+var base64 = window.Base64
 
 // ---------------------
 
@@ -7,8 +8,10 @@ init();
 
 function init() {
   const webSocket = new WebSocket('ws://localhost:8120/chat');
-  
-  webSocket.onmessage = (event) => { updateChatArea(JSON.parse(event.data)); }
+
+  webSocket.onmessage = (event) => {
+    updateChatArea(JSON.parse(event.data));
+  }
 
   document.getElementById('sendMessage').onclick = () => { createAndSendMessage(webSocket); }
 }
@@ -28,15 +31,20 @@ function updateChatArea(message) {
 function createWrapper(message) {
   const from = message.sender + ' ' + '(' + message.date + ')' + ':';
 
-  const p = document.createElement('<p>');
+  const fromP = document.createElement('p')
 
-  p.innerText = message.content;
+  fromP.innerHTML = from
+
+  const p = document.createElement('p');
+
+  p.innerText = message.text;
 
   const wrapper = document.createElement('div');
 
-  wrapper.appendChild(from);
-  wrapper.appendChild(document.createElement('</br>'));
+  wrapper.appendChild(fromP);
   wrapper.appendChild(p);
+
+  return wrapper
 }
 
 function createAndSendMessage(webSocket) {
@@ -53,7 +61,7 @@ function createAndSendMessage(webSocket) {
 }
 
 function getUserName() {
-  return base64.decode(getCookie('authToken').split('.')[1]).sub;
+  return JSON.parse(base64.decode(getCookie('authToken').split('.')[1])).sub;
 }
 
 function getCookie(name) {
@@ -69,8 +77,8 @@ class Message {
   date;
 
   constructor(sender, text, date) {
-    this.sender = username;
-    this.text = password;
+    this.sender = sender;
+    this.text = text;
     this.date = date;
   }
 }

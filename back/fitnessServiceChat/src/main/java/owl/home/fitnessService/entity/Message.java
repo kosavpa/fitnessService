@@ -1,6 +1,8 @@
 package owl.home.fitnessService.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,15 +11,15 @@ import java.util.UUID;
 
 
 @Entity(name = "Message")
-@Table(name = "MESSAGE")
+@Table(name = "messages")
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonIgnore
     public UUID id;
 
     @Column(name = "SENDER")
@@ -29,4 +31,10 @@ public class Message {
     @Column(name = "PUBLICATION_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date;
+
+    @SneakyThrows
+    @Override
+    public String toString() {
+        return new ObjectMapper().writeValueAsString(this);
+    }
 }

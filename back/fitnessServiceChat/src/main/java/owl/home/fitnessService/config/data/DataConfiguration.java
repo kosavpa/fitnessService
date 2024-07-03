@@ -49,7 +49,7 @@ public class DataConfiguration {
 
         entityManagerFactory.setJpaVendorAdapter(getVendorAdapter());
         entityManagerFactory.setDataSource(hikariDataSource);
-        entityManagerFactory.setPackagesToScan("com.owl.article_service.repository.entity");
+        entityManagerFactory.setPackagesToScan("owl.home.fitnessService.entity");
         entityManagerFactory.setJpaPropertyMap(getEntityManagerFactoryProperties());
 
         return entityManagerFactory;
