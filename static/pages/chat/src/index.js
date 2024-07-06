@@ -16,36 +16,36 @@ function init() {
   document.getElementById('sendMessage').onclick = () => { createAndSendMessage(webSocket); }
 }
 
-function updateChatArea(message) {
-  const wrapper = createWrapper(message);
+// function updateChatArea(message) {
+//   const wrapper = createWrapper(message);
 
-  if (message.sender == getUserName()) {
-    wrapper.setAttribute('style', 'text-align:right; margin:10px 20px 0px 20px;');
-  } else {
-    wrapper.setAttribute('style', 'text-align:left; margin:10px 20px 0px 20px;');
-  }
+//   if (message.sender == getUserName()) {
+//     wrapper.setAttribute('style', 'text-align:right; margin:10px 20px 0px 20px;');
+//   } else {
+//     wrapper.setAttribute('style', 'text-align:left; margin:10px 20px 0px 20px;');
+//   }
 
-  document.getElementById('charArea').appendChild(wrapper);
-}
+//   document.getElementById('charArea').appendChild(wrapper);
+// }
 
-function createWrapper(message) {
-  const from = message.sender + ' ' + '(' + message.date + ')' + ':';
+// function createWrapper(message) {
+//   const from = message.sender + ' ' + '(' + message.date + ')' + ':';
 
-  const fromP = document.createElement('p')
+//   const fromP = document.createElement('p')
 
-  fromP.innerHTML = from
+//   fromP.innerHTML = from
 
-  const p = document.createElement('p');
+//   const p = document.createElement('p');
 
-  p.innerText = message.text;
+//   p.innerText = message.text;
 
-  const wrapper = document.createElement('div');
+//   const wrapper = document.createElement('div');
 
-  wrapper.appendChild(fromP);
-  wrapper.appendChild(p);
+//   wrapper.appendChild(fromP);
+//   wrapper.appendChild(p);
 
-  return wrapper
-}
+//   return wrapper
+// }
 
 function createAndSendMessage(webSocket) {
   const inputMessage = document.getElementById('inputMessage');
@@ -60,25 +60,25 @@ function createAndSendMessage(webSocket) {
   inputMessage.value = '';
 }
 
-function getUserName() {
-  return JSON.parse(base64.decode(getCookie('authToken').split('.')[1])).sub;
-}
+// function getUserName() {
+//   return JSON.parse(base64.decode(getCookie('authToken').split('.')[1])).sub;
+// }
 
-function getCookie(name) {
-  let matches = document.cookie.match(
-    new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+// function getCookie(name) {
+//   let matches = document.cookie.match(
+//     new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
 
-  return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+//   return matches ? decodeURIComponent(matches[1]) : undefined;
+// }
 
-class Message {
-  sender;
-  text;
-  date;
+// class Message {
+//   sender;
+//   text;
+//   date;
 
-  constructor(sender, text, date) {
-    this.sender = sender;
-    this.text = text;
-    this.date = date;
-  }
-}
+//   constructor(sender, text, date) {
+//     this.sender = sender;
+//     this.text = text;
+//     this.date = date;
+//   }
+// }

@@ -1,4 +1,4 @@
-export default function VideoFrame(props) {
+export function VideoFrame(props) {
 
   const vidios = props.infoWrappers.map(infoWrapper =>
     <div className="singleVideoWrapper">
