@@ -1,7 +1,6 @@
 package com.owl.auth_service.config.security;
 
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -20,16 +19,15 @@ import org.springframework.security.web.server.savedrequest.NoOpServerRequestCac
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import java.util.List;
+
 
 @SuppressWarnings("unused")
 @Configuration
 public class SecurityConfig {
-    @Value("${allowOrigin}")
-    private String allowOrigin;
-
     @Bean("webFilterChain")
     public SecurityWebFilterChain getMainConfig(ServerHttpSecurity httpSecurity,
-                                       ReactiveAuthenticationManager authManager) {
+                                                ReactiveAuthenticationManager authManager) {
         return httpSecurity.authorizeExchange(auth -> auth
                         .pathMatchers(HttpMethod.POST, "/signup")
                         .permitAll()
@@ -48,10 +46,10 @@ public class SecurityConfig {
 
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.addAllowedOrigin(allowOrigin);
-        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowedOrigins(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("*"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addExposedHeader(HttpHeaders.LOCATION);
 
         corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);

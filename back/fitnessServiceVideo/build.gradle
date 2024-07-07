@@ -53,11 +53,11 @@ tasks.named('test') {
 }
 
 bootJar {
-	destinationDirectory = file("${project.buildDir}/docker/")
+	destinationDirectory = file("${project.rootDir}/docker/")
 }
 
 task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
-	destFile = project.file('build/docker/Dockerfile')
+	destFile = project.file("${project.rootDir}/docker/Dockerfile")
 
 	from 'openjdk:17-alpine'
 	copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
@@ -66,10 +66,4 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
 	exposePort 8110
 }
 
-task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {
-	inputDir = file("build/docker/")
-
-	getImages().add("kosavpa/${rootProject.name}:latest")
-}
-
-task createDockerfileAndBuildImage(dependsOn: [bootJar, createDockerfile, buildImage])
+task buildJarAndCreateDockerfile(dependsOn: [bootJar, createDockerfile])

@@ -1,6 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { createForDrawMessage } from "./util";
-import { createForSendMessage } from "./util";
+import React, { useCallback, useState, useEffect } from "react";
+import { createForDrawMessage, scrollToLastMessageWrapper, createForSendMessage } from "./util";
 import useWebSocket from 'react-use-websocket';
 
 
@@ -11,7 +10,7 @@ export function ChatHolder() {
         onOpen: () => {
             document.addEventListener('keydown', (event) => {
                 if (event.ctrlKey && event.key === "Enter") {
-                    send();
+                    handleClickSendMessage.call();
                 }
             });
 
@@ -23,24 +22,26 @@ export function ChatHolder() {
         }
     });
 
-    const handleClickSendMessage = useCallback(() => send(), []);
-
-    function send() {
+    const handleClickSendMessage = useCallback(() => {
         const message = createForSendMessage();
 
         if (message) {
             sendJsonMessage(message);
         }
-    }
+    }, []);
+
+    useEffect(() => scrollToLastMessageWrapper())
 
     return (
         <div className='chat-holder'>
-            <div>
-                {messages.map((message) => { return createForDrawMessage(JSON.parse(message)) })}
+            <div className="chat-area">
+                <div className="chat-messages-area">
+                    {messages.map((message) => createForDrawMessage(JSON.parse(message))).reverse()}
+                </div>
             </div>
             <div className="sender-wrapper">
                 <textarea id="text-message" />
-                <button onClick={handleClickSendMessage} />
+                <button className="send-btn" onClick={handleClickSendMessage} >Отправить </button>
             </div>
         </div>
     );

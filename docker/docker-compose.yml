@@ -1,10 +1,91 @@
-version: '3.8'
+version: "3.9"
+
 services:
+  auth_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    networks:
+      - authNetwork
+    
+  article_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    networks:
+      - articleNetwork
+      
+  config_service:
+    build:
+      context: ../back/fitnessServiceConfig/docker
+    restart: always
+    networks:
+      - servicesNetwork        
+            
+  discovery_service:
+    build:
+      context: ../back/fitnessServiceDiscovery/docker
+    restart: always
+    networks:
+      - servicesNetwork
+            
+  gateway_service:
+    build:
+      context: ../back/fitnessServiceGateway/docker
+    restart: always
+    networks:
+      - servicesNetwork
+            
+  auth_service:
+    build:
+      context: ../back/fitnessServiceAuth/docker
+    restart: always
+    networks:
+      - servicesNetwork
+            
+  article_service:
+    build:
+      context: ../back/fitnessServiceArticles/docker
+    restart: always
+    networks:
+      - servicesNetwork
+            
+  video_service:
+    build:
+      context: ../back/fitnessServiceVideo/docker
+    restart: always
+    networks:
+      - servicesNetwork
+            
+  chat_service:
+    build:
+      context: ../back/fitnessServiceChat/docker
+    restart: always
+    networks:
+      - servicesNetwork
+            
   web:
     image: nginx
     volumes:
-    - D:\Owl\java_applications\fitness-service\static\pages:/usr/share/nginx/html:ro
-    - ./conf/nginx.conf:/etc/nginx/nginx.conf
-    - ./conf/conf.d:/etc/nginx/conf.d
+      - ../back/images:/usr/share/nginx/images
+      - ../static/pages:/usr/share/nginx/html:ro
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./conf/conf.d:/etc/nginx/conf.d
     ports:
-    - "80:80"
+      - "80:80"
+
+networks:
+  authNetwork:
+    driver: bridge
+    
+  articleNetwork:
+    driver: bridge
+    
+  servicesNetwork:
+    driver: bridge

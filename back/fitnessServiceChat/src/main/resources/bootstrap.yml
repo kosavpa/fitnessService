@@ -1,7 +1,4 @@
 spring:
-  server:
-    port: 8120
-
   application:
     name: chat-service
 
@@ -11,9 +8,3 @@ spring:
   cloud:
     config:
       uri: http://configClient:configClient@localhost:8060
-eureka:
-  client:
-    enabled: false
-
-messages:
-  maxResult: 10

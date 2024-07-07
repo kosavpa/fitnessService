@@ -16,6 +16,6 @@ spring:
     config:
       server:
         git:
-          uri: https://kosavpa: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@github.com/kosavpa/fitness-service-config-server.git
-
-allowOrigin: http://localhost
+          uri:
+          default-label: main
+          clone-on-start: true

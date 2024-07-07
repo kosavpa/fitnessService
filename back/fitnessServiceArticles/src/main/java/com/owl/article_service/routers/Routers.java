@@ -2,7 +2,6 @@ package com.owl.article_service.routers;
 
 
 import com.owl.article_service.handlers.ArticleHandler;
-import com.owl.article_service.handlers.ImageHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -27,12 +26,5 @@ public class Routers {
         return RouterFunctions.route(RequestPredicates.GET("/article")
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 handler::articleById);
-    }
-
-    @Bean("articleImage")
-    public RouterFunction<ServerResponse> getImgByPathRouter(ImageHandler handler) {
-        return RouterFunctions.route(RequestPredicates.GET("/img/{relativePath}")
-                        .and(RequestPredicates.accept(MediaType.APPLICATION_OCTET_STREAM)),
-                handler::getImgByPath);
     }
 }

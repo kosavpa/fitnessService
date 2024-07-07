@@ -14,19 +14,39 @@ export function getCookie(name) {
 }
 
 export function createForDrawMessage(message) {
+    const date = formatDate(message.date);
+
     if (message.sender === getUserName()) {
         return (
-            <div className='from-message'>
-                <p>{`${message.sender} ${(message.date)}:`}</p>
-                <p>{`${message.text}`}</p>
-            </div>);
+            <div className='message-wrapper' key={message.date}>
+                <br />
+                <div className='from-message'>
+                    <p className='from-header'>{`${message.sender} (${date}):`}</p>
+                    <p className='from-text'>{`${message.text}`}</p>
+                </div>
+            </div >);
     } else {
         return (
-            <div className='to-message'>
-                <p>{`${message.sender} (${message.date}):`}</p>
-                <p>{`${message.text}`}</p>
+            <div className='message-wrapper' key={message.date}>
+                <br />
+                <div className='to-message'>
+                    <p className='from-header'>{`${message.sender} (${date}):`}</p>
+                    <p className='from-text'>{`${message.text}`}</p>
+                </div>
             </div>);
     }
+}
+
+function formatDate(date) {
+    const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+    };
+
+    return new Intl.DateTimeFormat("ru", options).format(date);
 }
 
 export function createForSendMessage() {
@@ -39,6 +59,14 @@ export function createForSendMessage() {
     }
 
     return undefined;
+}
+
+export function scrollToLastMessageWrapper() {
+    const messageWrappers = document.getElementsByClassName('message-wrapper');
+
+    if (messageWrappers.length !== 0) {
+        messageWrappers[messageWrappers.length - 1].scrollIntoView(true)
+    }
 }
 
 class Message {

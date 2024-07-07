@@ -1,13 +1,66 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  background-image: url("background.jpg");
+  background-attachment: fixed;
+  background-size: auto;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.chat-holder {
+  display: grid;
+  justify-content: center;
+  margin-top: 40px;
+
+    .chat-area {
+      display: flex;
+      flex-direction: column;
+      height: 740px;
+      overflow:auto;
+
+      .chat-messages-area {
+        margin-top: auto;
+
+        .message-wrapper:last-child {
+          
+        }
+
+        .from-message{
+          background-color: rgb(111, 196, 0);
+        }
+
+        .to-message {
+          background-color: rgb(196, 183, 0);
+        }
+
+        .from-message, .to-message {
+          overflow-wrap: break-word;
+          max-width: 1004px;
+          text-align: left;
+          padding: 10px;
+          margin: 0px 10px 0px 0px;
+          font-family: Verdana;
+          font-size: 120%;
+          border-radius: 15px;
+          border: solid rgb(0, 0, 0);
+        }
+      }
+    }
+
+    .sender-wrapper {
+      max-width: 1004px;
+      margin:10px 0px 10px 0px;
+      display:flex;
+
+      #text-message, .send-btn {
+        width: 880px;
+        font-family: Verdana;
+        font-size: 120%;
+        border-radius: 15px;
+        border: solid rgb(0, 0, 0);
+      }
+
+      .send-btn {
+        margin-left: 20px;
+        width: 120px;
+        height: 60px;
+      }
+    }
+  }
 }

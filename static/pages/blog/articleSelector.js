@@ -12,6 +12,22 @@ function createArticleDiv(jArticle) {
     return articleDiv
 }
 
+function createImageArticleDiv(jArticle) {
+    let imageWrapper = document.createElement('div')
+
+    imageWrapper.className = 'imageArticle'
+
+    let image = document.createElement('img')
+
+    const imgPath = jArticle.relativeImgPath.replace('|', '/')
+
+    image.src = `${location.origin}/images/${imgPath}`
+
+    imageWrapper.appendChild(image)
+
+    return imageWrapper
+}
+
 function createAboutArticleDiv(jArticle) {
     let aboutArticleDiv = document.createElement('div')
 

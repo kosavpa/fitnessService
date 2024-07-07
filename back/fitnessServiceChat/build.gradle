@@ -38,8 +38,6 @@ dependencyManagement {
 }
 
 dependencies {
-	runtimeOnly 'org.postgresql:postgresql'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
@@ -49,8 +47,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-configuration-processor'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	testImplementation 'io.projectreactor:reactor-test'
@@ -62,11 +58,11 @@ tasks.named('test') {
 }
 
 bootJar {
-	destinationDirectory = file("${project.buildDir}/docker/")
+	destinationDirectory = file("${project.rootDir}/docker/")
 }
 
 task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
-	destFile = project.file('build/docker/Dockerfile')
+	destFile = project.file("${project.rootDir}/docker/Dockerfile")
 
 	from 'openjdk:17-alpine'
 	copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
@@ -75,10 +71,4 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
 	exposePort 8120
 }
 
-task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {
-	inputDir = file("build/docker/")
-
-	getImages().add("kosavpa/${rootProject.name}:latest")
-}
-
-task createDockerfileAndBuildImage(dependsOn: [bootJar, createDockerfile, buildImage])
+task buildJarAndCreateDockerfile(dependsOn: [bootJar, createDockerfile])

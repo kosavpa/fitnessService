@@ -4,7 +4,7 @@ import VideoFrame from './videoHub';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-fetch('http://localhost:8080/videos-info')
+fetch('http://localhost:8100/video/videos-info')
   .then(response => {
     response.json().then(wrappers => {
       root.render(

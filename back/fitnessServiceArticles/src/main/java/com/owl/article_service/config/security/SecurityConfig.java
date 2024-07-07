@@ -15,13 +15,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.server.WebFilter;
 
+import java.util.List;
+
 
 @SuppressWarnings("unused")
 @Configuration
 public class SecurityConfig {
-    @Value("${allowOrigin}")
-    private String allowOrigin;
-
     @Bean("webFilterChain")
     public SecurityWebFilterChain getMainConfig(ServerHttpSecurity httpSecurity,
                                                 WebFilter jwtFilter) {
@@ -46,10 +45,10 @@ public class SecurityConfig {
 
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.addAllowedOrigin(allowOrigin);
-        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowedOrigins(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("*"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addExposedHeader(HttpHeaders.LOCATION);
 
         corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
