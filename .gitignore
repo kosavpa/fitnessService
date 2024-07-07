@@ -1,12 +1,4 @@
-**/build
+**/build/
 back/**/docker
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-node_modules/
-target/
-build/
+**/*.jar
+**/node_modules/
