@@ -1,7 +1,8 @@
 version: "3.9"
 
 services:
-  auth_db:
+  auth-db:
+    container_name: auth-db
     image: postgres
     restart: always
     environment:
@@ -9,68 +10,77 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     networks:
-      - authNetwork
+      - services-network
     
-  article_db:
+  article-db:
+    container_name: article-db
     image: postgres
     restart: always
     environment:
-      POSTGRES_DB: users
-      POSTGRES_USER: postgres
+      POSTGRES_DB: articles
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: root
     networks:
-      - articleNetwork
+      - services-network
       
-  config_service:
+  config-services:
+    container_name: config
     build:
       context: ../back/fitnessServiceConfig/docker
     restart: always
     networks:
-      - servicesNetwork        
+      - services-network
             
-  discovery_service:
+  discovery-services:
+    container_name: discovery
     build:
       context: ../back/fitnessServiceDiscovery/docker
     restart: always
     networks:
-      - servicesNetwork
+      - services-network
             
-  gateway_service:
+  gateway-services:
+    container_name: gateway
     build:
       context: ../back/fitnessServiceGateway/docker
     restart: always
     networks:
-      - servicesNetwork
+      - services-network
             
-  auth_service:
+  auth-services:
+    container_name: auth
     build:
       context: ../back/fitnessServiceAuth/docker
     restart: always
     networks:
-      - servicesNetwork
+      - services-network
             
-  article_service:
+  article-services:
+    container_name: article
     build:
       context: ../back/fitnessServiceArticles/docker
     restart: always
     networks:
-      - servicesNetwork
+      - services-network
             
-  video_service:
+  video-services:
+    container_name: video
     build:
       context: ../back/fitnessServiceVideo/docker
     restart: always
     networks:
-      - servicesNetwork
+      - services-network
             
-  chat_service:
+  chat-services:
+    container_name: chat
     build:
       context: ../back/fitnessServiceChat/docker
     restart: always
     networks:
-      - servicesNetwork
+      - services-network
             
-  web:
+  web-services:
+    container_name: web
     image: nginx
     volumes:
       - ../back/images:/usr/share/nginx/images
@@ -81,11 +91,5 @@ services:
       - "80:80"
 
 networks:
-  authNetwork:
-    driver: bridge
-    
-  articleNetwork:
-    driver: bridge
-    
-  servicesNetwork:
+  services-network:
     driver: bridge

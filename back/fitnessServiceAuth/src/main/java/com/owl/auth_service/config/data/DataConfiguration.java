@@ -31,9 +31,6 @@ public class DataConfiguration {
     @Value("${db.password}")
     private String password;
 
-    @Value("${db.platform}")
-    private String platform;
-
     @Bean("hikariDataSource")
     public DataSource createHikariDataSource() {
         HikariConfig hikariConfig = new HikariConfig();
@@ -74,7 +71,6 @@ public class DataConfiguration {
 
         hibernateJpaVendorAdapter.setPrepareConnection(true);
         hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
-        hibernateJpaVendorAdapter.setDatabasePlatform(platform);
         hibernateJpaVendorAdapter.setGenerateDdl(false);
         hibernateJpaVendorAdapter.setShowSql(true);
 

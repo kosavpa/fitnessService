@@ -22,8 +22,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Entity(name = "user")
-@Table(name = "fitness_user")
+@Entity(name = "User")
+@Table(name = "USERS")
 public class User implements UserDetails {
     @Id
     @Column(name = "id")
