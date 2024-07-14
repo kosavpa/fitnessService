@@ -19,7 +19,7 @@ public class GatewayApplication {
     }
 
     @Bean
-    private CorsFilter configureCors() {
+    public CorsFilter configureCors() {
         UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
 
         CorsConfiguration corsConfiguration = new CorsConfiguration();

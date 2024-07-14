@@ -23,63 +23,100 @@ services:
     networks:
       - services-network
       
-  config-services:
+  config-service:
     container_name: config
+    healthcheck:
+      test: ["CMD", "--interval=4", "--timeout=16", "curl -f http://localhost:8060/actuator/health"]
     build:
       context: ../back/fitnessServiceConfig/docker
     restart: always
+    ports:
+      - 8060:8060
     networks:
       - services-network
-            
-  discovery-services:
+      
+  discovery-service:
     container_name: discovery
+    healthcheck:
+      test: ["CMD", "--interval=4", "--timeout=16", "curl -f http://localhost:8090/actuator/health"]
     build:
       context: ../back/fitnessServiceDiscovery/docker
     restart: always
+    ports:
+      - 8090:8090
+    depends_on:
+      - config-service
     networks:
       - services-network
             
-  gateway-services:
+  gateway-service:
     container_name: gateway
     build:
       context: ../back/fitnessServiceGateway/docker
     restart: always
+    ports:
+      - 8100:8100
+    depends_on:
+      - config-service
+      - discovery-service
     networks:
       - services-network
             
-  auth-services:
+  auth-service:
     container_name: auth
     build:
       context: ../back/fitnessServiceAuth/docker
     restart: always
+    ports:
+      - 8070:8070
+    depends_on:
+      - config-service
+      - discovery-service
+      - auth-db
     networks:
       - services-network
             
-  article-services:
+  article-service:
     container_name: article
     build:
       context: ../back/fitnessServiceArticles/docker
     restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - config-service
+      - discovery-service
+      - article-db
     networks:
       - services-network
             
-  video-services:
+  video-service:
     container_name: video
     build:
       context: ../back/fitnessServiceVideo/docker
     restart: always
+    ports:
+      - 8110:8110
+    depends_on:
+      - config-service
+      - discovery-service
     networks:
       - services-network
             
-  chat-services:
+  chat-service:
     container_name: chat
     build:
       context: ../back/fitnessServiceChat/docker
     restart: always
+    ports:
+      - 8120:8120
+    depends_on:
+      - config-service
+      - discovery-service
     networks:
       - services-network
             
-  web-services:
+  web-service:
     container_name: web
     image: nginx
     volumes:

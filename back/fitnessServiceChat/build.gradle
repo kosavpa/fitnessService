@@ -65,10 +65,10 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
 	destFile = project.file("${project.rootDir}/docker/Dockerfile")
 
 	from 'openjdk:17-alpine'
+	exposePort 8120
 	copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
 	entryPoint 'java'
 	defaultCommand '-jar', "/app/${rootProject.name}.jar"
-	exposePort 8120
 }
 
 task buildJarAndCreateDockerfile(dependsOn: [bootJar, createDockerfile])

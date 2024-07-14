@@ -1,5 +1,6 @@
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
 
 plugins {
     id 'java'
@@ -47,9 +48,9 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
 
     from 'openjdk:17-alpine'
     copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
+    exposePort 8060
     entryPoint 'java'
     defaultCommand '-jar', "/app/${rootProject.name}.jar"
-    exposePort 8060
 }
 
 task buildJarAndCreateDockerfile(dependsOn: [bootJar, createDockerfile])

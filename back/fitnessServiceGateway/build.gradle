@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
@@ -52,10 +53,10 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
 	destFile = project.file("${project.rootDir}/docker/Dockerfile")
 
 	from 'openjdk:17-alpine'
+	exposePort 8100
 	copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
 	entryPoint 'java'
 	defaultCommand '-jar', "/app/${rootProject.name}.jar"
-	exposePort 8100
 }
 
 task buildJarAndCreateDockerfile(dependsOn: [bootJar, createDockerfile])
