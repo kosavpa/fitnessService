@@ -1,7 +1,6 @@
-package com.owl.article_service.config.security;
+package owl.home.fitnessService.config.security;
 
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -17,20 +16,14 @@ import org.springframework.web.server.WebFilter;
 
 import java.util.List;
 
-
-@SuppressWarnings("unused")
 @Configuration
 public class SecurityConfig {
-    @Bean("webFilterChain")
+    @Bean
     public SecurityWebFilterChain getMainConfig(ServerHttpSecurity httpSecurity, WebFilter jwtFilter) {
         return httpSecurity
                 .addFilterAt(jwtFilter, SecurityWebFiltersOrder.HTTP_BASIC)
                 .authorizeExchange(auth -> auth
-                        .pathMatchers(HttpMethod.GET, "/articles")
-                        .permitAll()
-                        .pathMatchers(HttpMethod.GET, "/img/**")
-                        .permitAll()
-                        .pathMatchers(HttpMethod.GET, "/article")
+                        .pathMatchers(HttpMethod.GET, "/**")
                         .authenticated())
                 .cors(this::configureCors)
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)

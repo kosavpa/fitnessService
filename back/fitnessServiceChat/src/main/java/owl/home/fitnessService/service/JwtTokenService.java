@@ -1,10 +1,12 @@
 package owl.home.fitnessService.service;
 
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -14,17 +16,18 @@ import java.util.List;
 import java.util.function.Function;
 
 
-@Service
-public class JwtService {
+@SuppressWarnings("unused")
+@Service("jwtTokenService")
+public class JwtTokenService {
     private final String jwtSigningKey;
 
-    public JwtService(@Value("${token.signing.key}") String jwtSigningKey) {
+    public JwtTokenService(@Value("${token.signing.key}") String jwtSigningKey) {
         this.jwtSigningKey = jwtSigningKey;
     }
 
     public void checkTokenExpired(String token) {
         if (extractExpiration(token).before(new Date())) {
-            throw new RuntimeException("Token is expired!");
+            throw new CredentialsExpiredException("Token is expired!");
         }
     }
 
@@ -41,7 +44,8 @@ public class JwtService {
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
-                .build().parseClaimsJws(token)
+                .build()
+                .parseClaimsJws(token)
                 .getBody();
     }
 

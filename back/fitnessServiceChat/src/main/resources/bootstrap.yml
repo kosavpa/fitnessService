@@ -1,3 +1,7 @@
+logging:
+  level:
+    root: DEBUG
+
 spring:
   application:
     name: chat-service
@@ -7,4 +11,4 @@ spring:
 
   cloud:
     config:
-      uri: http://configClient:configClient@config:8060
+      uri: http://configClient:configClient@localhost:8060
