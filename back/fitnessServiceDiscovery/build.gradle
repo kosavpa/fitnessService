@@ -56,14 +56,9 @@ task createDockerfile(type: Dockerfile, dependsOn: bootJar) {
     
     from 'openjdk:17-alpine'
     copyFile "${rootProject.name}.jar", "/app/${rootProject.name}.jar"
-    copyFile 'wait-for-it.sh', '/app/wait-for-it.sh'
     exposePort 8090
-    runCommand('apk add --no-cache bash')
-    runCommand('dos2unix /app/wait-for-it.sh && chmod +x /app/wait-for-it.sh')
-    entryPoint('/bin/bash', '/app/wait-for-it.sh')
-    defaultCommand(
-            '--timeout=2 ', '--strict', 'config:8060',
-            '--', 'java', '-jar', "/app/${rootProject.name}.jar")
+    entryPoint 'java'
+    defaultCommand '-jar', "/app/${rootProject.name}.jar"
 }
 
 task buildJarAndCreateDockerfile(dependsOn: [bootJar, createDockerfile])

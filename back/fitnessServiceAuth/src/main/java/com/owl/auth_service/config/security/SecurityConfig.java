@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @SuppressWarnings("unused")
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
     @Bean("webFilterChain")
     public SecurityWebFilterChain getMainConfig(ServerHttpSecurity httpSecurity,

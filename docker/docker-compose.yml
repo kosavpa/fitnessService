@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       POSTGRES_DB: users
-      POSTGRES_USER: postgres
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: root
     networks:
       - services-network
@@ -25,8 +25,18 @@ services:
       
   config-service:
     container_name: config
+    image: config-service:1
     healthcheck:
-      test: ["CMD", "--interval=4", "--timeout=16", "curl -f http://localhost:8060/actuator/health"]
+      test: |
+        response_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "http://actuatorClient:actuatorClient@config-service:8060/actuator/health");
+        if [ "$response_code" -ne 200 ]; then
+          echo "Error: Config Service returned HTTP $response_code"
+          exit 1
+        fi
+      interval: 4s
+      timeout: 2s
+      start_period: 60s
+      retries: 3
     build:
       context: ../back/fitnessServiceConfig/docker
     restart: always
@@ -37,82 +47,116 @@ services:
       
   discovery-service:
     container_name: discovery
+    image: discovery-service:1
     healthcheck:
-      test: ["CMD", "--interval=4", "--timeout=16", "curl -f http://localhost:8090/actuator/health"]
+      test: |
+        response_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "http://actuatorClient:actuatorClient@discovery-service:8090/actuator/health");
+        if [ "$response_code" -ne 200 ]; then
+          echo "Error: Config Service returned HTTP $response_code"
+          exit 1
+        fi
+      interval: 4s
+      timeout: 2s
+      start_period: 60s
+      retries: 3
+    depends_on:
+      config-service:
+          condition: service_healthy
+          restart: true
     build:
       context: ../back/fitnessServiceDiscovery/docker
-    restart: always
     ports:
       - 8090:8090
-    depends_on:
-      - config-service
     networks:
       - services-network
             
   gateway-service:
     container_name: gateway
+    image: gateway-service:1
     build:
       context: ../back/fitnessServiceGateway/docker
     restart: always
     ports:
       - 8100:8100
     depends_on:
-      - config-service
-      - discovery-service
+      config-service:
+          condition: service_healthy
+          restart: true
+      discovery-service:
+          condition: service_healthy
+          restart: true
     networks:
       - services-network
             
   auth-service:
     container_name: auth
+    image: auth-service:1
     build:
       context: ../back/fitnessServiceAuth/docker
     restart: always
     ports:
       - 8070:8070
     depends_on:
-      - config-service
-      - discovery-service
-      - auth-db
+      config-service:
+          condition: service_healthy
+          restart: true
+      discovery-service:
+          condition: service_healthy
+          restart: true
     networks:
       - services-network
             
   article-service:
     container_name: article
+    image: article-service:1
     build:
       context: ../back/fitnessServiceArticles/docker
     restart: always
     ports:
       - 8080:8080
     depends_on:
-      - config-service
-      - discovery-service
-      - article-db
+      config-service:
+          condition: service_healthy
+          restart: true
+      discovery-service:
+          condition: service_healthy
+          restart: true
     networks:
       - services-network
             
   video-service:
     container_name: video
+    image: video-service:1
     build:
       context: ../back/fitnessServiceVideo/docker
     restart: always
     ports:
       - 8110:8110
     depends_on:
-      - config-service
-      - discovery-service
+      config-service:
+          condition: service_healthy
+          restart: true
+      discovery-service:
+          condition: service_healthy
+          restart: true
     networks:
       - services-network
             
   chat-service:
     container_name: chat
+    image: chat-service:1
     build:
       context: ../back/fitnessServiceChat/docker
     restart: always
     ports:
       - 8120:8120
     depends_on:
-      - config-service
-      - discovery-service
+      config-service:
+          condition: service_healthy
+          restart: true
+      discovery-service:
+          condition: service_healthy
+          restart: true
     networks:
       - services-network
             

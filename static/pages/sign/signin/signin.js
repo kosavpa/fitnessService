@@ -25,7 +25,7 @@ function signinSbmtEventHandler(evnt) {
     }
 
     (function () {
-        fetch('http://localhost:8080/signin',
+        fetch('http://localhost:8100/auth/signin',
             {
                 method: 'GET',
                 headers: { 'Authorization': 'Basic ' + getAuth(form) }

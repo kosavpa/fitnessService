@@ -22,7 +22,7 @@ function signupSbmtEventHandler(evnt) {
     }
 
     (function () {
-        fetch('http://localhost:8080/signup', {
+        fetch('http://localhost:8100/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(new User(form.get('usrnm'), form.get('pwd')))
