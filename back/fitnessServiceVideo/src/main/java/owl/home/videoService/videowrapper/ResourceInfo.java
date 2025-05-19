@@ -34,8 +34,12 @@ public class ResourceInfo {
         String packageToScan = "video";
 
         Stream<Path> walk = Files.walk(
-                Path.of(ClassLoader.getSystemResource(packageToScan).toURI()),
-                FileVisitOption.FOLLOW_LINKS);
+                Path.of(
+                        Objects.requireNonNull(ResourceInfo.class.getClassLoader().getResource(packageToScan)).toURI()
+                )
+                ,
+                FileVisitOption.FOLLOW_LINKS
+        );
 
         try (walk) {
             Map<String, String> collect = walk.filter(path -> !Files.isDirectory(path))
